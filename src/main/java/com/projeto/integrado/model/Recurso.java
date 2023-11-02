@@ -2,6 +2,7 @@ package com.projeto.integrado.model;
 
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,9 @@ public class Recurso {
     @Column(name = "recurso_id")
     private Integer id;
 
-    @ManyToMany(mappedBy = "gerentes")
+    private String nome;
+
+    @ManyToMany(mappedBy = "gerentes", cascade = CascadeType.PERSIST)
     private Set<Projeto> projetos;
 
     @OneToOne(mappedBy = "recurso")
@@ -47,5 +50,13 @@ public class Recurso {
 
     public Tarefa getTarefa() {
         return tarefa;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }

@@ -1,7 +1,11 @@
 package com.projeto.integrado.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,27 +19,31 @@ import jakarta.persistence.Table;
 public class Tarefa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "tarefa_id")
-    private Integer id;
+    private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "status_tarefa_id", referencedColumnName = "status_tarefa_id")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "statusTarefa", referencedColumnName = "id")
     private StatusTarefa statusTarefa;
 
-    @ManyToOne
-    @JoinColumn(name = "projeto_id", referencedColumnName = "projeto_id")
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "projeto", referencedColumnName = "projeto_id")
     private Projeto projeto;
 
     @OneToOne
-    @JoinColumn(name = "recurso_id", referencedColumnName = "recurso_id")
+    @JoinColumn(name = "recurso", referencedColumnName = "recurso_id")
     private Recurso recurso;
 
-    public Integer getId() {
+    private String title;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,4 +63,19 @@ public class Tarefa {
         this.recurso = recurso;
     }
 
+    public void setStatusTarefa(StatusTarefa statusTarefa) {
+        this.statusTarefa = statusTarefa;
+    }
+
+    public StatusTarefa getStatusTarefa() {
+        return statusTarefa;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }

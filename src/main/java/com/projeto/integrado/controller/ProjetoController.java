@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projeto.integrado.dto.CreateProjetoDTO;
@@ -24,13 +25,12 @@ public class ProjetoController {
     @Autowired
     private ProjetoService projetoService;
 
-    @GetMapping
-    public List<Projeto> getAll() {
-        return projetoService.getAll();
-    }
 
-    @GetMapping("/{descricao}")
-    public List<Projeto> getByProjetoDescicao(@PathVariable(name = "descricao") String descricao) {
+    @GetMapping
+    public List<Projeto> getByProjetoDescicao(@RequestParam(name = "descricao", required = false) String descricao) {
+        if (descricao == null) {
+            return projetoService.getAll();
+        }
         return projetoService.findByProjetoDescricao(descricao);
     }
 

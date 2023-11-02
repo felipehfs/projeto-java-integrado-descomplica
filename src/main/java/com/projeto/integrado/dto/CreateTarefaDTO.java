@@ -1,4 +1,6 @@
 package com.projeto.integrado.dto;
 
-public record CreateTarefaDTO() {
+import jakarta.validation.constraints.NotBlank;
+
+public record CreateTarefaDTO(@NotBlank  String title, @NotBlank  String status, Integer projetoId) {
 }

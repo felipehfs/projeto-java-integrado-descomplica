@@ -3,6 +3,7 @@ package com.projeto.integrado.model;
 import java.time.Instant;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import jakarta.persistence.Table;
 @Table(name = "projeto")
 public class Projeto {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "projeto_id")
 	private Integer projetoId;
 
@@ -40,7 +41,7 @@ public class Projeto {
 	@OneToMany(mappedBy = "projeto")
 	private Set<Tarefa> tarefas;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(
 		name = "gerente_projeto",
 		joinColumns = @JoinColumn(name = "projeto_id"),
